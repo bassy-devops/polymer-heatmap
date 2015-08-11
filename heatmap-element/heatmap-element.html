@@ -1,0 +1,54 @@
+<dom-module id="heatmap-element">
+
+  <style>
+    :host {
+      width:80%;
+      height: 250px;
+    }
+  </style>
+  
+  <template>
+    <google-map id='gmap2' latitude="37.77493" longitude="-122.41942" libraries="visualization" on-google-map-ready="_mapLoaded">
+    </google-map>
+    <button on-click="handleHeat1">heatmap1</button>
+    <button on-click="handleHeat2">heatmap2</button>
+  </template>
+
+  <script>
+    // element registration
+    Polymer({
+      is: "heatmap-element",
+
+      properties: {
+        // declare properties for the element's public API
+        heatmap: Object
+      },
+      handleHeat1: function() {
+        var spotData =[];
+        spotData.push(new google.maps.LatLng(37.76493, -122.42942));
+        var pointArray = new google.maps.MVCArray(spotData);
+        this.heatmap.setData(pointArray);
+      },
+      handleHeat2: function() {
+        var spotData =[];
+        spotData.push(new google.maps.LatLng(37.77493, -122.41942));
+        spotData.push(new google.maps.LatLng(37.77593, -122.41842));
+        spotData.push(new google.maps.LatLng(37.77693, -122.41742));
+        spotData.push(new google.maps.LatLng(37.77793, -122.41642));
+        spotData.push(new google.maps.LatLng(37.77893, -122.41542));
+        spotData.push(new google.maps.LatLng(37.78493, -122.40942));
+        var pointArray = new google.maps.MVCArray(spotData);
+        this.heatmap.setData(pointArray);
+      },
+      _mapLoaded: function() {
+        var map = this.$.gmap2.map;
+        map.zoom = 13;
+        this.heatmap = new google.maps.visualization.HeatmapLayer({
+          data: []
+        });
+        this.heatmap.setMap(map);
+      }
+    });
+  </script>
+
+</dom-module>
